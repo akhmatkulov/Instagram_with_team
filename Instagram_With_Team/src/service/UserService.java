@@ -1,28 +1,27 @@
 package service;
 
+import model.User;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class UserService {
-   private static final String LAST_PAST = "users.json";
-   private final FileUtilService<User>fileUtilService;
-
-    public UserService(FileUtilService<User> fileUtilService) {
-        this.fileUtilService = fileUtilService;
-    }
+   private static final String LAST_PATH = "users.json";
+   private final FileUtilService<User> fileUtilService = new FileUtilService<>(User.class);
 
     public User add(User user) {
-        ArrayList<User> users = fileUtilService.read(LAST_PAST);
+        ArrayList<User> users = fileUtilService.read(LAST_PATH);
         if (!hasUser(user)) {
            users.add(user);
-           fileUtilService.write(users, LAST_PAST);
+           fileUtilService.write(users, LAST_PATH);
            return user;
        }
        return null;
    }
 
    private boolean hasUser(User user) {
-        ArrayList<User> list = fileUtilService.read(LAST_PAST);
+        ArrayList<User> list = fileUtilService.read(LAST_PATH);
 
        for (User user1 : list) {
            if (user1.getUsername().equals(user.getUsername()) ||
@@ -34,9 +33,10 @@ public class UserService {
    }
 
    public User login(String username, String password) {
-       User user = getByUserByUserName(username);
-       if (user != null) {
-           if (user.getPassword().equals(password)) {
+       ArrayList<User> list = fileUtilService.read(LAST_PATH);
+//        User user = getByUserByUserName(username);
+       for (User user: list) {
+           if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                return user;
            }
        }
@@ -44,7 +44,7 @@ public class UserService {
    }
 
    public User getByUserByUserName(String username) {
-        ArrayList<User> list = fileUtilService.read(LAST_PAST);
+        ArrayList<User> list = fileUtilService.read(LAST_PATH);
        for (User user : list) {
            if (user.getUsername().equals(username)) {
                return user;
@@ -53,7 +53,17 @@ public class UserService {
        return null;
    }
 
+   public User getUserByUserId(UUID userId) {
+        ArrayList<User> list = fileUtilService.read(LAST_PATH);
+        for (User user: list) {
+            if (user.getId().equals(userId)) {
+                return user;
+            }
+        }
+        return null;
+   }
+
    public ArrayList<User> list() {
-        return fileUtilService.read(LAST_PAST);
+        return fileUtilService.read(LAST_PATH);
    }
 }

@@ -7,11 +7,7 @@ import java.util.UUID;
 
 public class CommentService {
     private static final String LAST_PATH = "comments.json";
-    private final FileUtilService<Comment> fileUtilService;
-
-    private CommentService(FileUtilService<Comment> fileUtilService){
-        this.fileUtilService = fileUtilService;
-    }
+    private final FileUtilService<Comment> fileUtilService = new FileUtilService<>(Comment.class);
 
     public Comment add(Comment comment) {
         ArrayList<Comment> comments = fileUtilService.read(LAST_PATH);
