@@ -7,11 +7,7 @@ import java.util.UUID;
 
 public class PostService {
     private static final String LAST_PATH = "posts.json";
-    private final FileUtilService<Post> fileUtilService;
-
-    public PostService(FileUtilService<Post> fileUtilService) {
-        this.fileUtilService = fileUtilService;
-    }
+    private final FileUtilService<Post> fileUtilService = new FileUtilService<>();
 
     public Post add(Post post) {
         ArrayList<Post> posts = fileUtilService.read(LAST_PATH);
