@@ -8,11 +8,16 @@ import service.UserService;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import java.util.UUID;
+
 public class Main {
     static Scanner scannerInt = new Scanner(System.in);
     static Scanner scannerStr = new Scanner(System.in);
     static UserService userService = new UserService();
     static PostService postService = new PostService();
+
+    static ReadService readService = new ReadService();
+
     static ReadService readService = new ReadService(userService, postService);
 
     public static void main(String[] args) {
@@ -37,6 +42,8 @@ public class Main {
         String password = scannerStr.nextLine();
         System.out.print("Enter email: ");
         String email = scannerStr.nextLine();
+        User user = userService.add(new User(name, username, password, email));
+
         User user = userService.add(new User(name, username, email, password));
         if (user != null) {
             System.out.println("User is successfully added.");
@@ -46,7 +53,7 @@ public class Main {
     }
 
     private static void login() {
-        System.out.print("Enter username: ");
+        System.out.println("Enter username: ");
         String username = scannerStr.nextLine();
         System.out.print("Enter password: ");
         String password = scannerStr.nextLine();
@@ -54,16 +61,41 @@ public class Main {
         if (user != null) {
             int stepCode = 11;
             while (stepCode != 0) {
-                System.out.println("1.Posts:  2. Notification:");
+                int number = readService.lnumberOfUnreadPosts(user.getId());
+                System.out.println("1.Posts:  2. Notification:" + (number == 0 ? "" : number));
                 stepCode = scannerInt.nextInt();
                 if (stepCode == 1) {
 
                 } else if (stepCode == 2) {
-
+                    notification();
                 }
             }
         } else {
             System.out.println("This user not found!");
+        }
+    }
+
+
+
+    private static void notification(UUID userId, UUID postId) {
+     ArrayList<Post> posts = readService.listUnreadPost(userId);
+     unreadPosts(userId);
+     int choice = scannerInt.nextInt();
+     entryPost(posts.get(choice-1));
+    }
+
+    private static void unreadPosts(UUID userId){
+        ArrayList<Post> posts = readService.listUnreadPost(userId);
+        readService.listUnreadPost(userId);
+        int count = 0;
+        for(Post post: posts) {
+            System.out.println(count+1 + ". " + post.getName());
+        }
+        System.out.println(0 + ". Exit");
+    }
+
+    private static void entryPost(Post post) {
+
         }
     }
     
