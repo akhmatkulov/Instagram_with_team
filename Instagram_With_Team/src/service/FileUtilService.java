@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileUtilService<T> {
-    private static final String PATH = "c:\\Zuhriddin\\Java\\TeamProjects\\FileResources\\";
+    private static final String PATH = "E:\\Java\\FileResources\\";
     private final Gson gson = new Gson();
 
     public void write(ArrayList<T> T, String LAST_PATH) {
