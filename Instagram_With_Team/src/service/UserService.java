@@ -1,15 +1,13 @@
 package service;
 
-import java.util.List;
+import model.User;
+
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class UserService {
    private static final String LAST_PAST = "users.json";
-   private final FileUtilService<User>fileUtilService;
-
-    public UserService(FileUtilService<User> fileUtilService) {
-        this.fileUtilService = fileUtilService;
-    }
+   private final FileUtilService<User>fileUtilService = new FileUtilService<>(User.class);
 
     public User add(User user) {
         ArrayList<User> users = fileUtilService.read(LAST_PAST);
@@ -52,6 +50,16 @@ public class UserService {
        }
        return null;
    }
+
+    public User getUserByUserId(UUID userId) {
+        ArrayList<User> list = fileUtilService.read(LAST_PAST);
+        for (User user : list) {
+            if (user.getId().equals(userId)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
    public ArrayList<User> list() {
         return fileUtilService.read(LAST_PAST);

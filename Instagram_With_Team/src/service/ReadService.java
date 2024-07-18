@@ -11,12 +11,11 @@ public class ReadService {
     private static final String LAST_PATH = "read.json";
     private final UserService userService;
     private final PostService postService;
-    private final FileUtilService<Read> fileUtilService;
+    private final FileUtilService<Read> fileUtilService = new FileUtilService<>(Read.class);
 
-    public ReadService(UserService userService, PostService postService, FileUtilService<Read> fileUtilService) {
+    public ReadService(UserService userService, PostService postService) {
         this.userService = userService;
         this.postService = postService;
-        this.fileUtilService = fileUtilService;
     }
 
     public void addReadForAllUsers(UUID postId, UUID userId) {
