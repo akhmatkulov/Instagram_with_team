@@ -5,17 +5,16 @@ import java.util.UUID;
 public class Read {
     private final UUID id;
     private UUID userId;
-    private boolean read;
+    private boolean read = false;
     private UUID postId;
 
     public Read() {
         this.id = UUID.randomUUID();
     }
 
-    public Read(UUID userId, boolean read, UUID postId) {
+    public Read(UUID userId, UUID postId) {
         this();
         this.userId = userId;
-        this.read = read;
         this.postId = postId;
     }
 
