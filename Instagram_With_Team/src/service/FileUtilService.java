@@ -31,7 +31,7 @@ public class FileUtilService<T> {
         }
     }
 
-    public void read(String LAST_PATH) {
+    public ArrayList<T> read(String LAST_PATH) {
         Reader reader = null;
         BufferedReader bufferedReader = null;
         try {
@@ -41,8 +41,8 @@ public class FileUtilService<T> {
             while ((temp = bufferedReader.readLine()) != null) {
                 s += temp;
             }
-            ArrayList<T> T = gson.fromJson(s, new TypeToken<ArrayList<T>>() {});
-            System.out.println(gson.toJson(T));
+            return gson.fromJson(s, new TypeToken<ArrayList<T>>() {});
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -53,5 +53,6 @@ public class FileUtilService<T> {
                 e.getCause();
             }
         }
+        return null;
     }
 }
