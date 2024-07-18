@@ -21,15 +21,21 @@ public class FileUtilService<T> {
         Writer writer = null;
         BufferedWriter bufferedWriter = null;
         try {
-            writer = new FileWriter(PATH + LAST_PATH);
+            File file = new File(PATH + LAST_PATH);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            writer = new FileWriter(file);
             bufferedWriter = new BufferedWriter(writer);
             bufferedWriter.write(gson.toJson(T));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                if (writer != null) {
+                if (bufferedWriter != null) {
                     bufferedWriter.close();
+                }
+                if (writer != null) {
                     writer.close();
                 }
             } catch (IOException e) {
@@ -42,14 +48,17 @@ public class FileUtilService<T> {
         Reader reader = null;
         BufferedReader bufferedReader = null;
         try {
-            reader = new FileReader(PATH + LAST_PATH);
-            bufferedReader = new BufferedReader(reader);
-            String s = "", temp = "";
-            while ((temp = bufferedReader.readLine()) != null) {
-                s += temp;
+            File file = new File(PATH + LAST_PATH);
+            if (!file.exists()) {
+                return new ArrayList<>();
             }
-//            TypeToken<ArrayList<T>> typeToken = new TypeToken<>() {};
-//            return gson.fromJson(s, typeToken);
+            reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            StringBuilder s = new StringBuilder();
+            String temp;
+            while ((temp = bufferedReader.readLine()) != null) {
+                s.append(temp);
+            }
             Type listType = TypeToken.getParameterized(ArrayList.class, type).getType();
             return gson.fromJson(s, listType);
 
@@ -57,12 +66,16 @@ public class FileUtilService<T> {
             e.printStackTrace();
         } finally {
             try {
-                bufferedReader.close();
-                reader.close();
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
             } catch (IOException e) {
-                e.getCause();
+                e.printStackTrace();
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 }
