@@ -82,7 +82,7 @@ public class ReadService {
         return unreadPosts;
     }
 
-    public int numberOfUnreadPosts (UUID userId) {
+    public int lnumberOfUnreadPosts (UUID userId) {
         return listUnreadPost(userId).size();
     }
 }

@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class FileUtilService<T> {
-    private static final String PATH = "Desktop/json/";
+    private static final String PATH = "E:\\Java\\FileResources\\";
     private Class<T> type;
     private final Gson gson = new Gson();
 
@@ -59,9 +59,8 @@ public class FileUtilService<T> {
             while ((temp = bufferedReader.readLine()) != null) {
                 s.append(temp);
             }
-
             Type listType = TypeToken.getParameterized(ArrayList.class, type).getType();
-            return gson.fromJson(s.toString(), listType);
+            return gson.fromJson(s, listType);
 
         } catch (IOException e) {
             e.printStackTrace();

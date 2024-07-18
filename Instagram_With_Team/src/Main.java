@@ -5,7 +5,11 @@ import service.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import service.PostService;
+import service.ReadService;
+import service.UserService;
 
+import java.util.UUID;
 
 public class Main {
     static Scanner scannerInt = new Scanner(System.in);
@@ -60,7 +64,8 @@ public class Main {
         if (user != null) {
             int stepCode = 11;
             while (stepCode != 0) {
-                System.out.println("1.Posts:  2. Notification:");
+                int number = readService.lnumberOfUnreadPosts(user.getId());
+                System.out.println("1.Posts:  2. Notification:" + (number == 0 ? "" : number)");
                 try {
                     stepCode = scannerInt.nextInt();
                 } catch (InputMismatchException e) {
@@ -70,14 +75,14 @@ public class Main {
                 if (stepCode == 1) {
                     posts(user);
                 } else if (stepCode == 2) {
-
+                    notification();
                 }
             }
         } else {
             System.out.println("This user not found!");
         }
     }
-
+  
     private static void posts(User user) {
         int stepCode = 10;
         while (stepCode != 0) {
@@ -92,7 +97,7 @@ public class Main {
             if (stepCode == 1) {
                 myPosts(user);
             } else if (stepCode == 2) {
-
+                 readPosts(user);
             }
         }
     }
@@ -183,5 +188,63 @@ public class Main {
 
         }
     }
-}
 
+    private static void notification(UUID userId, UUID postId) {
+     ArrayList<Post> posts = readService.listUnreadPost(userId);
+     unreadPosts(userId);
+     int choice = scannerInt.nextInt();
+     entryPost(posts.get(choice-1));
+    }
+
+    private static void unreadPosts(UUID userId){
+        ArrayList<Post> posts = readService.listUnreadPost(userId);
+        readService.listUnreadPost(userId);
+        int count = 0;
+        for(Post post: posts) {
+            System.out.println(count+1 + ". " + post.getName());
+        }
+        System.out.println(0 + ". Exit");
+    }
+
+    private static void entryPost(Post post) {
+
+    }
+
+    private static void readPosts(User user) {
+        ArrayList<Post> posts = readService.listReadPost(user.getId());
+        int count = listReadPosts(user);
+        if (count != 0) {
+            int n = scannerInt.nextInt();
+            
+            detailsPost(posts.get(n - 1));
+        } else {
+            System.out.println("Posts are not exist.");
+        }
+    }
+    
+    private static int listReadPosts(User user) {
+        ArrayList<Post> readPosts = readService.listReadPost(user.getId());
+        int count = 0;
+        
+        for (Post post: readPosts) {
+            System.out.print(count + 1 + ". ");
+            System.out.println(post.getName());
+            count++;
+        }
+        return count;
+    }
+    
+    private static void detailsPost(Post post) {
+        User user = userService.getUserByUserId(post.getUserId());
+        System.out.println(post.getId() + "Link: " + post.getLink() + "Name: " + post.getName() + "User: " + user.getUsername());
+        System.out.println();
+        System.out.println("1. Comments,  2. Likes.");
+        int n = scannerInt.nextInt();
+        if (n == 1) {
+            
+        } else if (n == 2) {
+            
+        }
+    }
+
+}
