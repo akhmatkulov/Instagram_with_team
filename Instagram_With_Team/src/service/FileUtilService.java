@@ -2,13 +2,20 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import model.User;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class FileUtilService<T> {
-    private static final String PATH = "C:\\clonegit\\";
+    private static final String PATH = "E:\\Java\\FileResources\\";
+    private Class<T> type;
     private final Gson gson = new Gson();
+
+    public FileUtilService(Class<T> type) {
+        this.type = type;
+    }
 
     public void write(ArrayList<T> T, String LAST_PATH) {
         Writer writer = null;
@@ -41,7 +48,10 @@ public class FileUtilService<T> {
             while ((temp = bufferedReader.readLine()) != null) {
                 s += temp;
             }
-            return gson.fromJson(s, new TypeToken<ArrayList<T>>() {});
+//            TypeToken<ArrayList<T>> typeToken = new TypeToken<>() {};
+//            return gson.fromJson(s, typeToken);
+            Type listType = TypeToken.getParameterized(ArrayList.class, type).getType();
+            return gson.fromJson(s, listType);
 
         } catch (IOException e) {
             e.printStackTrace();

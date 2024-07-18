@@ -8,11 +8,7 @@ import java.util.UUID;
 
 public class LikeService {
     private static final String LAST_PATH = "likes.json";
-    private final FileUtilService<Like> fileUtilService;
-
-    public LikeService(FileUtilService<Like> fileUtilService) {
-        this.fileUtilService = fileUtilService;
-    }
+    private final FileUtilService<Like> fileUtilService = new FileUtilService<>(Like.class);
 
     public Like add(Like like){
         ArrayList<Like> likes = fileUtilService.read(LAST_PATH);
