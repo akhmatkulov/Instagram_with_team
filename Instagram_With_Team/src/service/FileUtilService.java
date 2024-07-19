@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class FileUtilService<T> {
-    private static final String PATH = "E:\\Java\\FileResources\\";
+    private static final String PATH = "c:\\Zuhriddin\\Java\\TeamProjects\\FileResources\\";
     private Class<T> type;
     private final Gson gson = new Gson();
 
@@ -21,21 +21,15 @@ public class FileUtilService<T> {
         Writer writer = null;
         BufferedWriter bufferedWriter = null;
         try {
-            File file = new File(PATH + LAST_PATH);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            writer = new FileWriter(file);
+            writer = new FileWriter(PATH + LAST_PATH);
             bufferedWriter = new BufferedWriter(writer);
             bufferedWriter.write(gson.toJson(T));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                if (bufferedWriter != null) {
-                    bufferedWriter.close();
-                }
                 if (writer != null) {
+                    bufferedWriter.close();
                     writer.close();
                 }
             } catch (IOException e) {
@@ -48,17 +42,14 @@ public class FileUtilService<T> {
         Reader reader = null;
         BufferedReader bufferedReader = null;
         try {
-            File file = new File(PATH + LAST_PATH);
-            if (!file.exists()) {
-                return new ArrayList<>();
-            }
-            reader = new FileReader(file);
+            reader = new FileReader(PATH + LAST_PATH);
             bufferedReader = new BufferedReader(reader);
-            StringBuilder s = new StringBuilder();
-            String temp;
+            String s = "", temp = "";
             while ((temp = bufferedReader.readLine()) != null) {
-                s.append(temp);
+                s += temp;
             }
+//            TypeToken<ArrayList<T>> typeToken = new TypeToken<>() {};
+//            return gson.fromJson(s, typeToken);
             Type listType = TypeToken.getParameterized(ArrayList.class, type).getType();
             return gson.fromJson(s, listType);
 
@@ -66,16 +57,12 @@ public class FileUtilService<T> {
             e.printStackTrace();
         } finally {
             try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-                if (reader != null) {
-                    reader.close();
-                }
+                bufferedReader.close();
+                reader.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getCause();
             }
         }
-        return new ArrayList<>();
+        return null;
     }
 }

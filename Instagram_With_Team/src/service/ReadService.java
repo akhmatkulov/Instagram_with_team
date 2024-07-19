@@ -48,6 +48,7 @@ public class ReadService {
                 read.setRead(true);
             }
         }
+        fileUtilService.write(reads, LAST_PATH);
     }
 
     public ArrayList<Post> listReadPost(UUID userId) {
@@ -82,7 +83,7 @@ public class ReadService {
         return unreadPosts;
     }
 
-    public int lnumberOfUnreadPosts (UUID userId) {
+    public int numberOfUnreadPosts (UUID userId) {
         return listUnreadPost(userId).size();
     }
 }
