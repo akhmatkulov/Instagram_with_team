@@ -25,11 +25,11 @@ public class Main {
     public static void main(String[] args) {
         int step = 10;
         while (step != 0) {
-            System.out.println("1.Register:  2.Login:");
+            System.out.println("\u001B[34m1.Register:  2.Login:\u001B[0m");
             try {
                 step = scannerInt.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("You enter incorrect type argument.");
+                System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                 scannerInt.next();
             }
             if (step == 1) {
@@ -41,38 +41,38 @@ public class Main {
     }
 
     private static void register() {
-        System.out.print("Enter name: ");
+        System.out.print("\u001B[34mEnter name:\u001B[0m ");
         String name = scannerStr.nextLine();
-        System.out.print("Enter username: ");
+        System.out.print("\u001B[34mEnter username:\u001B[0m ");
         String username = scannerStr.nextLine();
-        System.out.print("Enter password: ");
+        System.out.print("\u001B[34mEnter password:\u001B[0m ");
         String password = scannerStr.nextLine();
-        System.out.print("Enter email: ");
+        System.out.print("\u001B[34mEnter email:\u001B[0m ");
         String email = scannerStr.nextLine();
         User user = userService.add(new User(name, username, email, password));
         if (user != null) {
-            System.out.println("User is successfully added.");
+            System.out.println("\u001B[32mUser is successfully added.\u001B[0m");
             readService.addReadForNewUser(user.getId());
         } else {
-            System.out.println("This user is already exist.");
+            System.out.println("\u001B[31mThis user is already exist.\u001B[0m");
         }
     }
 
     private static void login() {
-        System.out.print("Enter username: ");
+        System.out.print("\u001B[34mEnter username:\u001B[0m ");
         String username = scannerStr.nextLine();
-        System.out.print("Enter password: ");
+        System.out.print("\u001B[34mEnter password:\u001B[0m ");
         String password = scannerStr.nextLine();
         User user = userService.login(username, password);
         if (user != null) {
             int stepCode = 11;
             while (stepCode != 0) {
                 int number = readService.numberOfUnreadPosts(user.getId());
-                System.out.println("1.Posts:  2. Notification:  " + (number == 0 ? "" : number));
+                System.out.println("\u001B[34m1.Posts:  2. Notification:\u001B[0m  " + (number == 0 ? "" : number));
                 try {
                     stepCode = scannerInt.nextInt();
                 } catch (InputMismatchException e) {
-                    System.out.println("You enter incorrect type argument.");
+                    System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                     scannerInt.next();
                 }
                 if (stepCode == 1) {
@@ -82,18 +82,18 @@ public class Main {
                 }
             }
         } else {
-            System.out.println("This user not found!");
+            System.out.println("\u001B[31mThis user not found!\u001B[0m");
         }
     }
   
     private static void posts(User user) {
         int stepCode = 10;
         while (stepCode != 0) {
-            System.out.println("1. MyPosts,  2. ReadPosts.");
+            System.out.println("\u001B[34m1. MyPosts,  2. ReadPosts.\u001B[0m");
             try {
                 stepCode = scannerInt.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("You enter incorrect type argument.");
+                System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                 scannerInt.next();
             }
 
@@ -108,12 +108,12 @@ public class Main {
     private static void myPosts(User user) {
         ArrayList<Post> myPosts = postService.listMyPosts(user.getId());
         if (myPosts.isEmpty()) {
-            System.out.println("1. Create a new post.");
+            System.out.println("\u001B[34m1. Create a new post.\u001B[0m");
             int step = -1;
             try {
                 step = scannerInt.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("You enter incorrect type argument.");
+                System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                 scannerInt.next();
             }
 
@@ -123,12 +123,12 @@ public class Main {
         } else {
             listAllPosts(user);
 
-            System.out.println("1. Create a new post,  2. Choose from existing posts.");
+            System.out.println("\u001B[34m1. Create a new post,  2. Choose from existing posts.\u001B[0m");
             int step = -1;
             try {
                 step = scannerInt.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("You enter incorrect type argument.");
+                System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                 scannerInt.next();
             }
 
@@ -136,14 +136,14 @@ public class Main {
                 createPosts(user);
             } else if (step == 2) {
                 try {
-                    System.out.print("Choose one of the posts: ");
+                    System.out.print("\u001B[32mChoose one of the posts:\u001B[0m");
                     int postIndex = scannerInt.nextInt();
                     viewPostDetails(myPosts.get(postIndex - 1), user);
                 } catch (InputMismatchException e) {
-                    System.out.println("You enter incorrect type argument.");
+                    System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                     scannerInt.next();
                 } catch (IndexOutOfBoundsException i) {
-                    System.out.println("You enter number which is out of bound.");
+                    System.out.println("\u001B[31mYou enter number which is out of bound.\u001B[0m");
                     scannerInt.next();
                 }
             }
@@ -151,16 +151,16 @@ public class Main {
     }
 
     private static void createPosts(User user) {
-        System.out.print("Enter post name: ");
+        System.out.print("\u001B[34mEnter post name:\u001B[0m");
         String name = scannerStr.nextLine();
-        System.out.print("Enter post link: ");
+        System.out.print("\u001B[34mEnter post link:\u001B[0m");
         String link = scannerStr.nextLine();
         Post createdPost = postService.add(new Post(link, name, user.getId()));
         if (createdPost != null) {
-            System.out.println("Post is successfully created");
+            System.out.println("\u001B[32mPost is successfully created\u001B[0m");
             readService.addReadForAllUsers(createdPost.getId(), user.getId());
         } else {
-            System.out.println("Failed to created post");
+            System.out.println("\u001B[31mFailed to created post\u001B[0m");
         }
     }
 
@@ -178,12 +178,12 @@ public class Main {
         System.out.println("Id: " + post.getId() + "\t" + "name: " + post.getName() + "\t" +
                 "link: " + post.getLink() + "\t" + "user: " + user1.getUsername());
         System.out.println();
-        System.out.println("1. Comments,  2. Likes.");
+        System.out.println("\u001B[34m1. Comments,  2. Likes.\u001B[0m");
         int step = -1;
         try {
             step = scannerInt.nextInt();
         } catch (InputMismatchException e) {
-            System.out.println("You enter incorrect type argument.");
+            System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
             scannerInt.next();
         }
         if (step == 1) {
@@ -202,10 +202,10 @@ public class Main {
              readService.setReadForUser(user.getId(), posts.get(choice - 1).getId());
              viewPostDetails(posts.get(choice-1), user);
          } catch (InputMismatchException e) {
-             System.out.println("You enter incorrect type argument.");
+             System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
              scannerInt.next();
          } catch (IndexOutOfBoundsException i) {
-             System.out.println("You enter number which is out of bound.");
+             System.out.println("\u001B[31mYou enter number which is out of bound.\u001B[0m");
              scannerInt.next();
          }
     }
@@ -215,9 +215,10 @@ public class Main {
         readService.listUnreadPost(userId);
         int count = 0;
         for(Post post: posts) {
-            System.out.println(count+1 + ". " + post.getName());
+            System.out.println(count + 1 + ". " + post.getName());
+            count++;
         }
-        System.out.println(0 + ". Exit");
+        System.out.println(0 + ".\u001B[31mExit\u001B[0m ");
     }
 
     private static void readPosts(User user) {
@@ -230,14 +231,14 @@ public class Main {
 
                 viewPostDetails(posts.get(n-1), user);
             } catch (InputMismatchException e) {
-                System.out.println("You enter incorrect type argument.");
+                System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                 scannerInt.next();
             } catch (IndexOutOfBoundsException i) {
-                System.out.println("You enter number which is out of bound.");
+                System.out.println("\u001B[31mYou enter number which is out of bound.\u001B[0m");
                 scannerInt.next();
             }
         } else {
-            System.out.println("Posts are not exist.");
+            System.out.println("\u001B[31mPosts are not exist.\u001B[0m");
         }
     }
     
@@ -258,46 +259,46 @@ public class Main {
         int count = listComments(post);
 
         if (count != 0 && post.getUserId().equals(user.getId())) {
-            System.out.println("Do you want to reply to comment: Y/N");
+            System.out.println("\u001B[32mDo you want to reply to comment: Y/N\u001B[0m");
             String s = scannerStr.nextLine();
             if (s.equalsIgnoreCase("Y")) {
-                System.out.print("Choose comment: ");
+                System.out.print("\u001B[32mChoose comment:\u001B[0m");
                 try {
                     int n = scannerInt.nextInt();
 
-                    System.out.print("Enter text: ");
+                    System.out.print("\u001B[34mEnter text:\u001B[0m 1");
                     String text = scannerStr.nextLine();
                     commentService.add(new Comment(text, post.getId(), mainComments.get(n - 1).getId(), user.getId()));
                 } catch (InputMismatchException e) {
-                    System.out.println("You enter incorrect type argument.");
+                    System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                     scannerInt.next();
                 }
             }
         }else if (count != 0 && !post.getUserId().equals(user.getId())) {
-            System.out.println("Do you want to write new comment or reply one of them: W/R");
+            System.out.println("\u001B[34mDo you want to write new comment or reply one of them: W/R\u001B[0m");
             String s = scannerStr.nextLine();
             if (s.equalsIgnoreCase("W")) {
-                System.out.print("Enter text: ");
+                System.out.print("\u001B[34mEnter text:\u001B[0m ");
                 String text = scannerStr.nextLine();
                 commentService.add(new Comment(text, post.getId(), null, user.getId()));
             } else if (s.equalsIgnoreCase("R")) {
-                System.out.print("Choose comment: ");
+                System.out.print("\u001B[34mChoose comment:\u001B[0m ");
                 try {
                     int n = scannerInt.nextInt();
 
-                    System.out.print("Enter text: ");
+                    System.out.print("\u001B[34mEnter text:\u001B[0m ");
                     String text = scannerStr.nextLine();
                     commentService.add(new Comment(text, post.getId(), mainComments.get(n - 1).getId(), user.getId()));
                 } catch (InputMismatchException e) {
-                    System.out.println("You enter incorrect type argument.");
+                    System.out.println("\u001B[31mYou enter incorrect type argument.\u001B[0m");
                     scannerInt.next();
                 }
             }
         } else if (!post.getUserId().equals(user.getId())) {
-            System.out.println("Do you want to write a comment: Y/N");
+            System.out.println("\u001B[34Do you want to write a comment: Y/N\u001B[0m");
             String s = scannerStr.nextLine();
             if (s.equalsIgnoreCase("Y")) {
-                System.out.print("Enter text: ");
+                System.out.print("\u001B[34Enter text:\u001B[0m ");
                 String text = scannerStr.nextLine();
                 commentService.add(new Comment(text, post.getId(), null, user.getId()));
             }
@@ -325,7 +326,7 @@ public class Main {
         if (likeService.hasLike(new Like(user.getId(), post.getId())) || post.getUserId().equals(user.getId())) {
             listLikes(post);
         } else {
-            System.out.println("Do you want to pass like or watch: P/W");
+            System.out.println("\u001B[34mDo you want to pass like or watch: P/W\u001B[0m");
             String s = scannerStr.nextLine();
             if (s.equalsIgnoreCase("P")) {
                 likeService.add(new Like(user.getId(), post.getId()));

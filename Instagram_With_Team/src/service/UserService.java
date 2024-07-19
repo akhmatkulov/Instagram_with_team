@@ -33,7 +33,7 @@ public class UserService {
 
    public User login(String username, String password) {
        ArrayList<User> list = fileUtilService.read(LAST_PATH);
-//        User user = getByUserByUserName(username);
+
        for (User user: list) {
            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                return user;
