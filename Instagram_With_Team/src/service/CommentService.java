@@ -28,11 +28,11 @@ public class CommentService {
         return comments1;
     }
 
-    public List<Comment> listSubCommentsByCommentId(UUID commentId, UUID postId) {
+    public ArrayList<Comment> listSubCommentsByCommentId(UUID commentId, UUID postId) {
         ArrayList<Comment> comments = fileUtilService.read(LAST_PATH);
         ArrayList<Comment> subCom = new ArrayList<>();
         for (Comment comment: comments){
-            if(comment.getId().equals(commentId) && comment.getPostId().equals(postId)){
+            if(commentId.equals(comment.getParentCommentId()) && comment.getPostId().equals(postId)){
                 subCom.add(comment);
             }
         }

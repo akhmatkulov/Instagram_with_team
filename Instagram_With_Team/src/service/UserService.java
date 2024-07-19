@@ -22,13 +22,12 @@ public class UserService {
 
    private boolean hasUser(User user) {
         ArrayList<User> list = fileUtilService.read(LAST_PATH);
-
-       for (User user1 : list) {
-           if (user1.getUsername().equals(user.getUsername()) ||
-                   user1.getEmail().equals(user.getEmail())) {
-                 return true;
-           }
-       }
+        for (User user1 : list) {
+            if (user1.getUsername().equals(user.getUsername()) ||
+                    user1.getEmail().equals(user.getEmail())) {
+                return true;
+            }
+        }
        return false;
    }
 

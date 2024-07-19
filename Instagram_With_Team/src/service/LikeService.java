@@ -22,10 +22,15 @@ public class LikeService {
 
     public boolean hasLike(Like like){
         ArrayList<Like> likes = fileUtilService.read(LAST_PATH);
-        return likes.contains(like);
+        for (Like like1: likes) {
+            if (like1.getPostId().equals(like.getPostId()) && like1.getUserId().equals(like.getUserId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public List<Like> listLikesByPostId(UUID postId){
+    public ArrayList<Like> listLikesByPostId(UUID postId){
         ArrayList<Like> likes1 = new ArrayList<>();
         ArrayList<Like> likes = fileUtilService.read(LAST_PATH);
         for (Like like : likes){
