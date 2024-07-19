@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class FileUtilService<T> {
-    private static final String PATH = "c:\\Zuhriddin\\Java\\TeamProjects\\FileResources\\";
+    private static final String PATH = "/Users/khurshideshonkulov/Desktop/json/";
     private Class<T> type;
     private final Gson gson = new Gson();
 
